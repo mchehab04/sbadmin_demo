@@ -2,11 +2,13 @@
 from pathlib import Path
 import os
 
-# ⬇️ now 3 parents up (settings/base.py -> settings -> config -> project root)
+# ⬇️ Now 3 parents up (settings/base.py -> settings -> config -> project root)
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-SECRET_KEY = "dev-only-placeholder"  # overridden in production
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = "dev-only-placeholder"  # overridden in staging/production
 
+# Application definition
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -14,7 +16,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "dashboard",  # we'll create this app next
+    "widget_tweaks",  # custom app for reusable widgets
+    "dashboard",  # custom app for dashboard views
+    "quotes",     # example app for quotations
 ]
 
 MIDDLEWARE = [
@@ -32,12 +36,13 @@ ROOT_URLCONF = "config.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "templates"],      # global templates dir
+        # Global templates directory
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.debug",
-                "django.template.context_processors.request",
+                "django.template.context_processors.request",  # required for request in templates
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
             ],
@@ -47,6 +52,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
+# Database (SQLite for dev; override in staging/production)
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
@@ -54,12 +60,20 @@ DATABASES = {
     }
 }
 
+# Internationalization
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "UTC"
 USE_I18N = True
 USE_TZ = True
 
-STATIC_URL = "static/"
-STATICFILES_DIRS = [BASE_DIR / "static"]    # serve theme assets in dev
+# Static files (CSS, JavaScript, Images)
+STATIC_URL = "/static/"
+STATICFILES_DIRS = [BASE_DIR / "static"]  # serve theme assets in development
+STATIC_ROOT = BASE_DIR / "staticfiles"    # collected static files for production
 
+# Media files (for user uploads, if needed)
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
+
+# Default primary key field type
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

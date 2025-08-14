@@ -1,0 +1,39 @@
+{% load form_tags %}
+{% load i18n %}
+{% load widget_tweaks %}
+
+{% annotate_form_field field %}
+
+<div class="control-group {% if field.errors %}error{% endif %} control-input">
+  {% if not nolabel %}
+  <label class="control-label {% if field.field.required %}required{% endif %}" for="{{ field.id_for_label }}">{{ field.label }}</label>
+  {% endif %}
+  <div class="controls">
+    <div class="custom_file_input">
+      {% if field.help_text %}
+        <small class="form-text text-muted">
+            {# We allow HTML within form help fields #}
+            {{ field.help_text|safe }}
+        </small>
+      {% endif %}
+      <div class="custom_file_name">
+        <span class="file-chosen-text"></span>
+        <span class="remove_file" data-target="{{ field.auto_id }}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="9.849" height="9.849" viewBox="0 0 9.849 9.849">
+             <g id="Group_20526" data-name="Group 20526" transform="translate(-1326.576 -277.576)">
+                <line id="Line_3754" data-name="Line 3754" x1="9" y1="9" transform="translate(1327 278)"
+                      fill="none" stroke="#d7d7da" stroke-width="1.2"></line>
+                <line id="Line_3755" data-name="Line 3755" x1="9" y2="9" transform="translate(1327 278)"
+                      fill="none" stroke="#d7d7da" stroke-width="1.2"></line>
+             </g>
+          </svg>
+       </span>
+      </div>
+    </div>
+    {{ custom|default:field }}
+    
+  </div>
+  {% for error in field.errors %}
+      <span class="error-block"><i class="fas fa-exclamation"></i> {{ error }}</span>
+  {% endfor %}
+</div>

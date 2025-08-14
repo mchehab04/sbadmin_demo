@@ -1,0 +1,49 @@
+{% load static %}
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+  <!-- Brand -->
+  <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'home' %}">
+    <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-laugh-wink"></i></div>
+    <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+  </a>
+
+  <hr class="sidebar-divider my-0">
+
+  <!-- Dashboard -->
+  <li class="nav-item {% if request.path == '/' %}active{% endif %}">
+    <a class="nav-link" href="{% url 'home' %}">
+      <i class="fas fa-fw fa-tachometer-alt"></i>
+      <span>Dashboard</span>
+    </a>
+  </li>
+
+  <hr class="sidebar-divider">
+
+  <!-- Quotations (Hover-to-expand) -->
+  <li class="nav-item {% if request.path|slice:':8' == '/quotes/' %}active{% endif %}">
+    <a class="nav-link collapsed" href="#collapseQuotations" data-toggle="collapse" data-target="#collapseQuotations"
+       aria-expanded="false" aria-controls="collapseQuotations">
+      <i class="fas fa-file-invoice"></i>
+      <span>Quotations</span>
+    </a>
+    <div id="collapseQuotations" class="collapse" aria-labelledby="headingQuotations" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <h6 class="collapse-header">Quotation Actions:</h6>
+        <a class="collapse-item {% if request.resolver_match and request.resolver_match.url_name == 'create' %}active{% endif %}"
+           href="{% url 'quotes:create' %}">New Quotation</a>
+        <a class="collapse-item {% if request.resolver_match and request.resolver_match.url_name == 'list' %}active{% endif %}"
+           href="{% url 'quotes:list' %}">View Quotations</a>
+        <a class="collapse-item {% if request.resolver_match and request.resolver_match.url_name == 'edit' %}active{% endif %}"
+           href="{% url 'quotes:edit' %}">Edit Quotations</a>
+      </div>
+    </div>
+  </li>
+
+  <hr class="sidebar-divider d-none d-md-block">
+
+  <!-- Sidebar Message (optional) -->
+  <div class="sidebar-card d-none d-lg-flex">
+    <img class="sidebar-card-illustration mb-2" src="{% static 'img/undraw_rocket.svg' %}" alt="...">
+    <p class="text-center mb-2"><strong>SB Admin Pro</strong> has premium features!</p>
+    <a class="btn btn-success btn-sm" href="https://startbootstrap.com/theme/sb-admin-pro" target="_blank">Upgrade</a>
+  </div>
+</ul>
