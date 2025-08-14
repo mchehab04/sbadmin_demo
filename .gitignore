@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual env
+.venv/
+
+# Django (local dev)
+db.sqlite3
+media/
+staticfiles/        # future STATIC_ROOT (keep your /static/ vendor assets committed!)
+
+# Editor
+.vscode/
+
+# Env files / secrets
+.env
+.env.*
