@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}New Quotation · SB Admin 2{% endblock %}
+
+{% block content %}
+<h1 class="h3 mb-4 text-gray-800">New EV Charger Quotation</h1>
+
+<form method="post">
+  {% csrf_token %}
+
+  <!-- Customer & Site Details -->
+  <div class="card mb-4">
+    <div class="card-header">
+      <h6 class="m-0 font-weight-bold text-primary">Customer & Site Details</h6>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4">
+          {% include "dashboard/partials/form_field.html" with field=form.customer_name %}
+        </div>
+        <div class="col-md-4">
+          {% include "dashboard/partials/form_field.html" with field=form.customer_email %}
+        </div>
+        <div class="col-md-4">
+          {% include "dashboard/partials/form_field.html" with field=form.reference_no %}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-8">
+          {% include "dashboard/partials/form_field.html" with field=form.site_address %}
+        </div>
+        <div class="col-md-4">
+          {% include "dashboard/partials/form_field.html" with field=form.preferred_install_date %}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          {% include "dashboard/partials/form_field.html" with field=form.site_contact_name %}
+        </div>
+        <div class="col-md-6">
+          {% include "dashboard/partials/form_field.html" with field=form.site_contact_phone %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charger & Electrical Details -->
+  <div class="card mb-4">
+    <div class="card-header">
+      <h6 class="m-0 font-weight-bold text-primary">Charger & Electrical Details</h6>
+    </div>
+    <div class="card-body">
+
+      <div class="row">
+        <div class="col-md-3">
+          {% include "dashboard/partials/form_field.html" with field=form.charger_type %}
+        </div>
+        <div class="col-md-3">
+          {% include "dashboard/partials/form_field.html" with field=form.charger_power_kw %}
+        </div>
+        <div class="col-md-3">
+          {% include "dashboard/partials/form_field.html" with field=form.phase %}
+        </div>
+        <div class="col-md-3">
+          {% include "dashboard/partials/form_field.html" with field=form.mounting_type %}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          {% include "dashboard/partials/form_field.html" with field=form.supply_type %}
+        </div>
+        <div class="col-md-4">
+          {% include "dashboard/partials/form_field.html" with field=form.rcd_type %}
+        </div>
+        <div class="col-md-4">
+          {% include "dashboard/partials/form_field.html" with field=form.cable_length_m %}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3">
+          {% include "dashboard/partials/form_field.html" with field=form.civil_work %}
+        </div>
+        <div class="col-md-3">
+          {% include "dashboard/partials/form_field.html" with field=form.interlock_removal %}
+        </div>
+        <div class="col-md-3">
+          {% include "dashboard/partials/form_field.html" with field=form.earthing_required %}
+        </div>
+        <div class="col-md-3">
+          {% include "dashboard/partials/form_field.html" with field=form.surge_protection %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Notes -->
+  <div class="card mb-4">
+    <div class="card-header">
+      <h6 class="m-0 font-weight-bold text-primary">Notes</h6>
+    </div>
+    <div class="card-body">
+      {% include "dashboard/partials/form_field.html" with field=form.notes %}
+    </div>
+  </div>
+
+  <!-- Items (optional now; you can hide this section if you don’t need it yet) -->
+  <div class="card mb-4">
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <h6 class="m-0 font-weight-bold text-primary">Items</h6>
+      <small class="text-muted">Line items for parts/labor (optional)</small>
+    </div>
+    <div class="card-body">
+      {{ formset.management_form }}
+      <div class="table-responsive">
+        <table class="table table-sm">
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th style="width:120px">Qty</th>
+              <th style="width:160px">Unit Price</th>
+              <th style="width:90px">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for f in formset %}
+            <tr>
+              <td>{% include "dashboard/partials/form_field.html" with field=f.description nolabel=True %}</td>
+              <td>{% include "dashboard/partials/form_field.html" with field=f.quantity nolabel=True %}</td>
+              <td>{% include "dashboard/partials/form_field.html" with field=f.unit_price nolabel=True %}</td>
+              <td>{% if f.DELETE %}{% include "dashboard/partials/form_field.html" with field=f.DELETE nolabel=True %}{% endif %}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="mb-5">
+    <button type="submit" class="btn btn-primary">
+      <i class="fas fa-file-download mr-1"></i> Generate PDF
+    </button>
+    <a href="{% url 'home' %}" class="btn btn-secondary ml-2">Cancel</a>
+  </div>
+</form>
+{% endblock %}

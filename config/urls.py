@@ -3,5 +3,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", include("dashboard.urls")),
+    path("quotes/", include("quotes.urls", namespace="quotes")),
+    path("", include("dashboard.urls")),  # your dashboard home
 ]
